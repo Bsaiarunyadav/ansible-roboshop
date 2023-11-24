@@ -40,13 +40,46 @@
     ansible.builtin.get_url:
       url: https://roboshop-builds.s3.amazonaws.com/catalogue.zip 
       dest: /tmp
+  
   - name: Extract catalogue artifact
     ansible.builtin.unarchive:
       src: /tmp/catalogue.zip
       dest: /app 
       remote_src: yes # here we are giving this as the ansible was expecting in ansible server itself
+  
+  - name: install dependencies   # command module 
+    ansible.builtin.command: npm install
+    args:
+      chdir: /app # here it will change the directory and install the application .
+  
+  - name: copy catalogue service
+    ansible.builtin.copy:
+      src: catalogue.service
+      dest: /etc/systemd/system/catalogue.service
 
+  - name: catalgoue daemon reaload 
+    ansible.builtin.systemd:
+      daemon_reload: true
 
+  - name: copy mongodb repo to yum.repo.d
+    ansible.builtin.copy:
+      src: mongodb.repo
+      dest: /etc/yum.repos.d/mongo.repo
+
+  - name: Install mongodb
+    ansible.builtin.yum:
+      name: mongodb-org-shell 
+      state: installed
+
+  - name: install dependencies
+    ansible.builtin.command: mongo --host mongodb.awsdevopsjoin.online </app/schema/catalogue.js
+  
+  - name: restart catalogue
+    ansible.builtin.service:
+      name: catalogue
+      state: restarted
+      enabled: yes
+  
 
 
        
