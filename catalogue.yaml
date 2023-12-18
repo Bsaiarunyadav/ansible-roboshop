@@ -72,7 +72,7 @@
       state: installed
 
   - name: install dependencies
-    ansible.builtin.command: mongo --host mongodb.joindevops.online < /app/schema/catalogue.js  # we ahould give the space < /app
+    ansible.builtin.command: mongo --host mongodb.awsdevopsjoin.online < /app/schema/catalogue.js  # we ahould give the space < /app
   
   - name: restart catalogue
     ansible.builtin.service:
