@@ -57,7 +57,7 @@
       src: user.service
       dest: /etc/systemd/system/user.service
 
-  - name: catalgoue daemon reaload 
+  - name: user daemon reaload 
     ansible.builtin.systemd:
       daemon_reload: true
 
