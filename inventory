@@ -9,3 +9,6 @@ web.awsdevopsjoin.online
 
 [redis]
 redis.awsdevopsjoin.online
+
+[user]
+user.awsdevopsjoin.online
