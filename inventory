@@ -6,3 +6,6 @@ catalogue.awsdevopsjoin.online
 
 [web]
 web.awsdevopsjoin.online
+
+[redis]
+redis.awsdevopsjoin.online
