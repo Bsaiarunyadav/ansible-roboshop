@@ -12,5 +12,5 @@
 
   - name: install redis
     ansible.builtin.yum: 
-    name: redis
-    state: installed 
+      name: redis
+      state: installed 
