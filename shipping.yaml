@@ -1,0 +1,76 @@
+- name: install shipping component
+  hosts: shipping
+  become: yes
+  tasks:
+  - name: installing maven package  
+    ansible.builtin.yum: 
+      name: maven
+      state: installed
+
+  - when: output.rc != 0
+    name: user add roboshop 
+    become: yes 
+    ansible.builtin.user: 
+      name: roboshop 
+
+  - name: check /app directory exists or not 
+    ansible.builtin.stat:
+      path: /app
+    register: directory
+
+  - name: print the directory stats 
+    ansible.builtin.debug:
+      msg: "output: {{directory}}"
+
+  - when: directory.stat.exists == False
+    name: Create /app directory
+    ansible.builtin.file:
+      path: /app
+      state: directory
+  
+  # - name: Download catalogue artifact 
+  #   ansible.builtin.get_url:
+  #     url: https://roboshop-builds.s3.amazonaws.com/catalogue.zip 
+  #     dest: /tmp
+  
+  # - name: Extract catalogue artifact
+  #   ansible.builtin.unarchive:
+  #     src: /tmp/catalogue.zip
+  #     dest: /app 
+  #     remote_src: yes # here there are 2 steps that to download and extract the artifacts instead of them we can also use 
+
+  - name: download and extract artifacts 
+    ansible.builtin.unarchive:
+      src: https://roboshop-builds.s3.amazonaws.com/shipping.zip
+      dest: /app 
+      remote_src: yes
+  
+  - name: maven package
+    ansible.builtin.command: mvn clean package # for using this module here we need to be inside directory so we use 
+    args: 
+      chdir: /app
+  - name: rename jar file
+    ansible.builtin.command: mv target/shipping-1.0.jar shipping.jar # for using this module here we need to be inside directory so we use 
+    args: 
+      chdir: /app
+  - name: Copy shipping service
+    ansible.builtin.copy:
+      src: shipping.service
+      dest: /etc/systemd/system/shipping.service
+  
+  - name: shipping daemon reaload 
+    ansible.builtin.systemd:
+      daemon_reload: true
+  
+  - name: restart catalogue
+    ansible.builtin.service:
+      name: catalogue
+      state: restarted
+      enabled: yes
+
+  - name: installing mysql client  
+    ansible.builtin.yum: 
+      name: mysql
+      state: installed 
+
+  
