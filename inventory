@@ -21,3 +21,9 @@ mysql.awsdevopsjoin.online
 
 [shipping]
 shipping.awsdevopsjoin.online
+
+[rabbitmq]
+rabbitmq.awsdevopsjoin.online
+
+[payment]
+payment.awsdevopsjoin.online
