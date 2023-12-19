@@ -62,9 +62,9 @@
     ansible.builtin.systemd:
       daemon_reload: true
   
-  - name: restart catalogue
+  - name: restart shipping
     ansible.builtin.service:
-      name: catalogue
+      name: shipping
       state: restarted
       enabled: yes
 
