@@ -7,8 +7,8 @@
       name: maven
       state: installed
 
-  - when: out.rc != 0
-    name: user add roboshop 
+    #when: output.rc != 0
+  - name: user add roboshop 
     become: yes 
     ansible.builtin.user: 
       name: roboshop 
