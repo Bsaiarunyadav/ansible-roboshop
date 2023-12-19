@@ -73,7 +73,7 @@
 
   - name: loading catalogue data
     ansible.builtin.command: mongo --host mongodb.awsdevopsjoin.online < /app/schema/catalogue.js  # we ahould give the space < /app
-      update: yes
+    update: yes
   - name: restart catalogue
     ansible.builtin.service:
       name: catalogue
