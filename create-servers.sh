@@ -1,4 +1,4 @@
-#!/bin/bash
+
 
 NAMES=$@  # here we will pass the app names thorugh command line
 INSTANCE_TYPE=""
